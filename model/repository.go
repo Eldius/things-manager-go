@@ -26,6 +26,13 @@ func NewRepository() *Repository {
 	}
 }
 
+func NewRepositoryCustom(_db *gorm.DB) *Repository {
+	db = _db
+	return &Repository{
+		db: db,
+	}
+}
+
 // GetDB gets a database connection
 func (r *Repository) GetDB() *gorm.DB {
 	if db == nil {
@@ -54,7 +61,9 @@ func (r *Repository) GetThing(id int) *Thing {
 
 func (r *Repository) GetThingByName(name string) *Thing {
 	var t Thing
-	r.db.Where("name = ?", name).First(&t)
+	log.Println(name)
+	r.db.Where(&Thing{Name: name}).First(&t)
+	log.Println(t)
 	return &t
 }
 

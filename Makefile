@@ -1,6 +1,6 @@
 
 start:
-	go run main.go start
+	THINGS_APP_DATABASE_LOG=1 go run main.go start
 
 addtestthings:
 	# add test thing 0

@@ -44,7 +44,7 @@ func updateThing(rw http.ResponseWriter, r *http.Request, repo *model.Repository
 	log.Info("Updating things")
 	if id, err := getThingId(r); err != nil {
 		rw.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(rw).Encode(map[string]string{
+		_ = json.NewEncoder(rw).Encode(map[string]string{
 			"reason": err.Error(),
 		})
 	} else {
@@ -63,7 +63,7 @@ func updateThing(rw http.ResponseWriter, r *http.Request, repo *model.Repository
 func getThing(rw http.ResponseWriter, r *http.Request, repo *model.Repository) {
 	if id, err := getThingId(r); err != nil {
 		rw.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(rw).Encode(map[string]string{
+		_ = json.NewEncoder(rw).Encode(map[string]string{
 			"reason": err.Error(),
 		})
 	} else {
@@ -74,16 +74,20 @@ func getThing(rw http.ResponseWriter, r *http.Request, repo *model.Repository) {
 		if t != nil {
 			rw.Header().Set("Content-Type", "application/json")
 			rw.WriteHeader(http.StatusOK)
-			json.NewEncoder(rw).Encode(t)
+			_ = json.NewEncoder(rw).Encode(t)
 		} else {
 			rw.WriteHeader(http.StatusNotFound)
 		}
-
 	}
 }
 
 func getThingId(r *http.Request) (int, error) {
-	return strconv.Atoi(strings.Trim(r.URL.Path, "/things/"))
+	id, err := strconv.Atoi(strings.Trim(r.URL.Path, "/things/"))
+	log.WithError(err).WithFields(logrus.Fields{
+		"url": r.URL.Path,
+		"id":  id,
+	}).Info("GettingThing")
+	return id, err
 }
 
 func createThing(rw http.ResponseWriter, r *http.Request, repo *model.Repository) {
@@ -98,7 +102,7 @@ func createThing(rw http.ResponseWriter, r *http.Request, repo *model.Repository
 	} else {
 		rw.Header().Set("Content-Type", "application/json")
 		rw.WriteHeader(http.StatusConflict)
-		json.NewEncoder(rw).Encode(map[string]string{
+		_ = json.NewEncoder(rw).Encode(map[string]string{
 			"reason": "Name alread exists",
 		})
 	}

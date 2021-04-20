@@ -14,7 +14,7 @@ func setup() {
 		hostname, _ := os.Hostname()
 		var standardFields = logrus.Fields{
 			"hostname": hostname,
-			"appname":  "controle-oi-cadastro-cartao-backend",
+			"appname":  "things-manager",
 		}
 
 		logrus.SetFormatter(&logrus.JSONFormatter{})
