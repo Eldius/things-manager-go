@@ -36,20 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-.thingContainer {
-  border-style: solid;
-  border-color: lightgray;
-  border-width: 2px;
-  border-radius: 15px;
-
-  text-align: left;
-  padding: 15px;
-
-  width: fit-content;
-  block-size: fit-content;
-}
-
-textarea.descriptionValue {
-  border-radius: 5px;
-}
